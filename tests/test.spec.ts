@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 test('my first test', async ({ page }) => {
+  
+  test.skip(!!process.env.CI, 'Test file is skipped in CI due to Cloudflare protection.');
   await page.goto('https://practicesoftwaretesting.com/auth/login');
   await page.locator('id=email').fill('customer@practicesoftwaretesting.com');
   await page.locator('id=password').fill('welcome01');
