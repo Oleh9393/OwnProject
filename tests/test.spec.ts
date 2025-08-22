@@ -13,6 +13,5 @@ test('login as a customer', async ({ page }) => {
 
   const accountPage = new AccountPage(page);
   await expect(accountPage.pageTitle).toHaveText('My account');
-  const userMenuText = await accountPage.navigationMenu.innerText()
-  expect(userMenuText).toContain('Jane Doe');
+  await expect(accountPage.navigationMenu).toContainText('Jane Doe');
 });
