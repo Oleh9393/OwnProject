@@ -3,14 +3,22 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test":"npx playwright test"
+    "test": "npx playwright test",
+    "lint": "npx eslint . --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@eslint/js": "^9.33.0",
     "@playwright/test": "^1.54.2",
-    "@types/node": "^24.2.1"
+    "@types/node": "^24.2.1",
+    "eslint": "^9.33.0",
+    "eslint-plugin-playwright": "^2.2.2",
+    "globals": "^16.3.0",
+    "jiti": "^2.5.1",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.40.0"
   }
 }
