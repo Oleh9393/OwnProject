@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/home.page';
 import { ProductDetailsPage } from '../pages/product-details.page';
+test.use({ storageState: 'auth/session.json' });
 
 test('verifying product data', async ({ page }) => {
     await page.goto('/');

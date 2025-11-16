@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
 import { AccountPage } from '../pages/account.page';
 import { usersCreds } from '../data/creds';
+test.use({ storageState: 'auth/session.json' });
 
 test('login as a customer', async ({ page }) => {
   test.skip(!!process.env.CI, 'Test file is skipped in CI due to Cloudflare protection.');

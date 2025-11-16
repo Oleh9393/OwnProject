@@ -32,7 +32,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://practicesoftwaretesting.com',
     testIdAttribute: 'data-test',
-  
+
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 
@@ -46,19 +46,43 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+
+      name: 'auth',
+      testMatch: /auth\.login\.spec\.ts/,
+
+    },
+
+    {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      dependencies: ['auth'],
+      testIgnore: /auth\.login\.spec\.ts/,
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: {
+        ...devices['Desktop Firefox'],
+      },
+      dependencies: ['auth'],
+      testIgnore: /auth\.login\.spec\.ts/,
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: {
+        ...devices['Desktop Safari'],
+      },
+      dependencies: ['auth'],
+      testIgnore: /auth\.login\.spec\.ts/,
     },
+
+
+
+
+
 
     /* Test against mobile viewports. */
     // {
