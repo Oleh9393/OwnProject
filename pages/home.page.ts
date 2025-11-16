@@ -11,8 +11,8 @@ export class HomePage {
 
     constructor(page: Page) {
         this.page = page;
-        this.combinationPliersProduct = this.page.getByText("Combination Pliers");
-        this.slipJointPliersProduct = this.page.getByText("Slip Joint Pliers");
+        this.combinationPliersProduct = this.page.locator('[data-test="product-name"]:has-text("Combination Pliers")');
+        this.slipJointPliersProduct = this.page.locator('[data-test="product-name"]:has-text("Slip Joint Pliers")');
         this.sortingButton = this.page.getByTestId("sort");
         this.productName = this.page.getByTestId("product-name");
         this.productPrice = this.page.getByTestId("product-price")
