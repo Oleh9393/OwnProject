@@ -16,6 +16,6 @@ export class HomePage {
         this.sortingButton = this.page.getByTestId("sort");
         this.productName = this.page.getByTestId("product-name");
         this.productPrice = this.page.getByTestId("product-price")
-        this.sanderLabel = this.page.getByTestId("category-01KA7AXJB4YRD5MAG3ETKNNR5A")
+        this.sanderLabel = page.locator('label:has-text("Sander")');
     }
 }
