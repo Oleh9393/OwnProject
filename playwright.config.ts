@@ -44,44 +44,44 @@ export default defineConfig({
   },
 
   /* Configure projects for major browsers */
-  projects: [
+projects: [
+    
     {
-
-      name: 'auth',
-      testMatch: /auth\.login\.spec\.ts/,
-
+      name: 'login', 
+      testMatch: /.*auth\.login\.spec\.ts/, 
     },
-
+   
     {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
+        storageState: 'auth/session.json', 
       },
-      dependencies: ['auth'],
-      testIgnore: /auth\.login\.spec\.ts/,
+      dependencies: ['login'], 
+      testIgnore: /.*auth\.login\.spec\.ts/,
     },
 
+   
     {
       name: 'firefox',
       use: {
         ...devices['Desktop Firefox'],
+        storageState: 'auth/session.json',
       },
-      dependencies: ['auth'],
-      testIgnore: /auth\.login\.spec\.ts/,
+      dependencies: ['login'], 
+      testIgnore: /.*auth\.login\.spec\.ts/,
     },
 
+ 
     {
       name: 'webkit',
       use: {
         ...devices['Desktop Safari'],
+        storageState: 'auth/session.json',
       },
-      dependencies: ['auth'],
-      testIgnore: /auth\.login\.spec\.ts/,
+      dependencies: ['login'], 
+      testIgnore: /.*auth\.login\.spec\.ts/,
     },
-
-
-
-
 
 
     /* Test against mobile viewports. */
