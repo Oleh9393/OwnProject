@@ -22,13 +22,13 @@ for (const product of sortProducts) {
         await page.goto('/');
         const homePage = new HomePage(page);
         await homePage.sortingButton.selectOption({ label: product.sortOption });
-        await page.waitForTimeout(2000);
+        await expect(homePage.sortingCompleted).toBeVisible();
         const productNames = await homePage.productName.allInnerTexts();
         const sortedNames = [...productNames];
         if (product.sortOrder === 'asc') {
-            sortedNames.sort((a, b) => a.localeCompare(b)); // A to Z
+            sortedNames.sort((a, b) => a.localeCompare(b)); 
         } else {
-            sortedNames.sort((a, b) => b.localeCompare(a)); // Z to A
+            sortedNames.sort((a, b) => b.localeCompare(a)); 
         }
         expect(productNames).toEqual(sortedNames);
     });

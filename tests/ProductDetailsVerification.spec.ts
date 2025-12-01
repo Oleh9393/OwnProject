@@ -6,7 +6,7 @@ test.use({ storageState: 'auth/session.json' });
 test('verifying product data', async ({ page }) => {
     await page.goto('/');
     const homePage = new HomePage(page);
-    await homePage.combinationPliersProduct.click();
+    await homePage.getProductByText('Combination Pliers').click();
 
     const productDetails = new ProductDetailsPage(page);
     await expect(page).toHaveURL(/\/product\//);

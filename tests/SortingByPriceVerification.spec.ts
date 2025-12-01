@@ -24,7 +24,7 @@ for (const testCase of priceSortTestCases) {
         await page.goto('/');
         const homePage = new HomePage(page);
         await homePage.sortingButton.selectOption({ label: testCase.sortOption });
-        await page.waitForTimeout(2000);
+        await expect(homePage.sortingCompleted).toBeVisible();
         const priceStrings = await homePage.productPrice.allInnerTexts();
         const prices = priceStrings.map(price => parseFloat(price.replace('$', '')));
         const sortedPrices = [...prices];

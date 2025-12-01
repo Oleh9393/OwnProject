@@ -12,11 +12,10 @@ enum Category {
 
 test('Verify user can filter products by category', async ({ page }) => {
     const homePage = new HomePage(page);
-   
+
     await page.goto('/');
     await homePage.sanderLabel.click();
-    await page.waitForTimeout(1000);
-    await expect(homePage.productName.first()).toBeVisible();
+    await expect(homePage.filterCompleted).toBeVisible();
     const productNames = await homePage.productName.allInnerTexts();
     for (const name of productNames) {
         expect(name.toLowerCase()).toContain('sander');

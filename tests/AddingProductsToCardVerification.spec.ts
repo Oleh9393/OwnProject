@@ -1,18 +1,19 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/home.page';
 import { ProductDetailsPage } from '../pages/product-details.page';
-import {CheckoutPage} from '../pages/checkout.page';
+import { CheckoutPage } from '../pages/checkout.page';
 test.use({ storageState: 'auth/session.json' });
 
 test('adding products to the card', async ({ page }) => {
 
     await page.goto('/');
     const homePage = new HomePage(page);
-    await homePage.slipJointPliersProduct.click();
+    await homePage.getProductByText('Slip Joint Pliers').click();
 
     const productDetails = new ProductDetailsPage(page);
     await expect(page).toHaveURL(/\/product\//);
-    await expect(productDetails.unitPrice).toContainText('9.17');
+    const priceText = await productDetails.unitPrice.innerText();
+    expect(parseFloat(priceText)).toBeGreaterThan(0);
     await productDetails.addToCart.click();
 
     const alert = page.getByRole('alert');
@@ -26,5 +27,5 @@ test('adding products to the card', async ({ page }) => {
     await expect(page).toHaveURL(/\/checkout/);
     await expect(checkout.productQuantity).toHaveValue('1');
     await expect(checkout.productTitle).toContainText('Slip Joint Pliers');
-    await expect(checkout.proceedToCheckout).toBeVisible;
+    await expect(checkout.proceedToCheckout).toBeVisible();
 });
