@@ -32,7 +32,14 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://practicesoftwaretesting.com',
     testIdAttribute: 'data-test',
-  
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+
+    launchOptions: {
+      args: ["--disable-blink-features=AutomationControlled"],
+      ignoreDefaultArgs: ["--enable-automation"]
+    },
+
+
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 
@@ -45,20 +52,44 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+
+    {
+      name: 'setup',
+      testMatch: /.*auth\.setup\.spec\.ts/,
+    },
+
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'auth/session.json',
+      },
+      dependencies: ['setup'],
+      testIgnore: /.*auth\.setup\.spec\.ts/,
     },
+
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: {
+        ...devices['Desktop Firefox'],
+        storageState: 'auth/session.json',
+      },
+      dependencies: ['setup'],
+      testIgnore: /.*auth\.setup\.spec\.ts/,
     },
+
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: {
+        ...devices['Desktop Safari'],
+        storageState: 'auth/session.json',
+      },
+      dependencies: ['setup'],
+      testIgnore: /.*auth\.setup\.spec\.ts/,
     },
+
 
     /* Test against mobile viewports. */
     // {
