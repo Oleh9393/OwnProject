@@ -1,8 +1,5 @@
 
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/home.page';
-
-test.use({ storageState: 'auth/session.json' });
+import { test, expect } from './fixtures';
 
 enum Category {
     HAND_TOOLS = 'Hand Tools',
@@ -10,13 +7,13 @@ enum Category {
     OTHER = 'Other'
 }
 
-test('Verify user can filter products by category', async ({ page }) => {
-    const homePage = new HomePage(page);
+test('Verify user can filter products by category', async ({ app }) => {
+ //   const homePage = new HomePage(page);
 
-    await page.goto('/');
-    await homePage.sanderLabel.click();
-    await expect(homePage.filterCompleted).toBeVisible();
-    const productNames = await homePage.productName.allInnerTexts();
+    await app.page.goto('/');
+    await app.homePage.sanderLabel.click();
+    await expect(app.homePage.filterCompleted).toBeVisible();
+    const productNames = await app.homePage.productName.allInnerTexts();
     for (const name of productNames) {
         expect(name.toLowerCase()).toContain('sander');
     }

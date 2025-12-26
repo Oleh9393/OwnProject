@@ -1,7 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/home.page';
-test.use({ storageState: 'auth/session.json' });
-
+import { test, expect } from './fixtures';
 
 const priceSortTestCases = [
     {
@@ -16,16 +13,13 @@ const priceSortTestCases = [
     },
 ];
 
-
 for (const testCase of priceSortTestCases) {
+    test(testCase.testName, async ({ app }) => {
 
-    test(testCase.testName, async ({ page }) => {
-
-        await page.goto('/');
-        const homePage = new HomePage(page);
-        await homePage.sortingButton.selectOption({ label: testCase.sortOption });
-        await expect(homePage.sortingCompleted).toBeVisible();
-        const priceStrings = await homePage.productPrice.allInnerTexts();
+        await app.page.goto('/');
+        await app.homePage.sortingButton.selectOption({ label: testCase.sortOption });
+        await expect(app.homePage.sortingCompleted).toBeVisible();
+        const priceStrings = await app.homePage.productPrice.allInnerTexts();
         const prices = priceStrings.map(price => parseFloat(price.replace('$', '')));
         const sortedPrices = [...prices];
         if (testCase.sortOrder === 'asc') {
