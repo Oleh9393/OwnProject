@@ -34,13 +34,6 @@ export default defineConfig({
     testIdAttribute: 'data-test',
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
 
-    launchOptions: {
-      args: ["--disable-blink-features=AutomationControlled"],
-      ignoreDefaultArgs: ["--enable-automation"]
-    },
-
-
-
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 
     trace: process.env.CI ? 'retain-on-failure' : 'on-first-retry',
@@ -69,26 +62,26 @@ export default defineConfig({
     },
 
 
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        storageState: 'auth/session.json',
-      },
-      dependencies: ['setup'],
-      testIgnore: /.*auth\.setup\.spec\.ts/,
-    },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     storageState: 'auth/session.json',
+    //   },
+    //   dependencies: ['setup'],
+    //   testIgnore: /.*auth\.setup\.spec\.ts/,
+    // },
 
 
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-        storageState: 'auth/session.json',
-      },
-      dependencies: ['setup'],
-      testIgnore: /.*auth\.setup\.spec\.ts/,
-    },
+    // {
+    //   name: 'webkit',
+    //   use: {
+    //     ...devices['Desktop Safari'],
+    //     storageState: 'auth/session.json',
+    //   },
+    //   dependencies: ['setup'],
+    //   testIgnore: /.*auth\.setup\.spec\.ts/,
+    // },
 
 
     /* Test against mobile viewports. */
