@@ -3,6 +3,12 @@ import { BILLING_ADDRESS, TEST_CARD } from './checkout.data';
 
 
 test('Successful product payment verification', async ({ loggedInApp }) => {
+
+// Skip test in CI environment due to Cloudflare protection
+    test.skip(!!process.env.CI, 'Test is skipped in CI due to the Cloudflare protection.');
+
+
+
     const { accountPage, homePage, productDetails } = loggedInApp;
     await accountPage.homeButton.click();
     await homePage.verifyProductIsVisible();

@@ -1,16 +1,21 @@
 import { test, expect } from './fixtures';
 
 
+
 test('adding products to the card', async ({ app }) => {
+
+
+    // Skip test in CI environment due to Cloudflare protection
+    test.skip(!!process.env.CI, 'Test is skipped in CI due to the Cloudflare protection.');
 
     await app.page.goto('/');
     await app.homePage.getProductByText('Slip Joint Pliers').click();
     await expect(app.page).toHaveURL(/\/product\//);
-    
+
     const priceText = await app.productDetails.unitPrice.innerText();
     expect(parseFloat(priceText)).toBeGreaterThan(0);
     await app.productDetails.addToCart.click();
-   
+
     const alert = app.page.getByRole('alert');
     await expect(alert).toBeVisible();
     await expect(alert).toHaveText("Product added to shopping cart.");

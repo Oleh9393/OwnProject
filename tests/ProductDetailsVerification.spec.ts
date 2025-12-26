@@ -1,8 +1,13 @@
 import { test, expect } from './fixtures';
 
+
 test('verifying product data', async ({ app }) => {
+
+    // Skip test in CI environment due to Cloudflare protection
+    test.skip(!!process.env.CI, 'Test is skipped in CI due to the Cloudflare protection.');
+
     await app.page.goto('/');
-   // const homePage = new HomePage();
+    // const homePage = new HomePage();
     await app.homePage.getProductByText('Combination Pliers').click();
     //const productDetails = new ProductDetailsPage(page);
     await expect(app.page).toHaveURL(/\/product\//);

@@ -60,12 +60,12 @@ export default defineConfig({
 
     {
       name: 'chromium',
-      use: {
+      use: { 
         ...devices['Desktop Chrome'],
-        // storageState: 'auth/session.json',
+        launchOptions: {
+          args: ['--disable-blink-features=AutomationControlled']
+        }
       },
-      // dependencies: ['setup'],
-      testIgnore: /.*auth\.setup\.spec\.ts/,
     },
 
 
