@@ -4,9 +4,12 @@ import { HomePage } from './home.page';
 import { AccountPage } from './account.page';
 import { CheckoutPage } from './checkout.page';
 import { ProductDetailsPage } from './product-details.page';
+import { Alert } from './components/alert';
+
 
 export class App {
     page: Page;
+    alert: Alert;
     loginPage: LoginPage;
     homePage: HomePage;
     accountPage: AccountPage;
@@ -15,6 +18,7 @@ export class App {
 
     constructor(page: Page) {
         this.page = page;
+        this.alert = new Alert(page);
 
 
         this.loginPage = new LoginPage(page);

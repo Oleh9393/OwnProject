@@ -12,6 +12,16 @@ export class CheckoutPage {
     proceedToCheckout3: Locator;
     paymentMethod: Locator;
     paymentSuccessMessage: Locator;
+    street: Locator;
+    city: Locator;
+    state: Locator;
+    postalCode: Locator;
+    creditcardnumber: Locator;
+    expirationDate: Locator;
+    cvv: Locator;
+    cardHolderName: Locator;
+    finishButton: Locator;
+;
 
     constructor(page: Page) {
         this.page = page;
@@ -25,6 +35,14 @@ export class CheckoutPage {
         this.proceedToCheckout3 = this.page.getByTestId("proceed-3");
         this.paymentMethod = this.page.getByTestId("payment-method");
         this.paymentSuccessMessage = this.page.getByTestId("payment-success-message");
-
+        this.street = this.page.getByTestId("street");
+        this.city = this.page.getByTestId("city");
+        this.state = this.page.getByTestId("state");
+        this.postalCode = this.page.getByTestId("postal_code");
+        this.creditcardnumber = this.page.getByTestId("credit_card_number");
+        this.expirationDate = this.page.getByTestId("expiration_date");
+        this.cvv = this.page.getByTestId("cvv");
+        this.cardHolderName = this.page.getByTestId("card_holder_name");
+        this.finishButton = this.page.getByTestId("finish");
     }
 }
