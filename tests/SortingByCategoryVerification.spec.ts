@@ -1,8 +1,6 @@
 
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/home.page';
+import { test, expect } from './fixtures';
 
-test.use({ storageState: 'auth/session.json' });
 
 enum Category {
     HAND_TOOLS = 'Hand Tools',
@@ -10,13 +8,15 @@ enum Category {
     OTHER = 'Other'
 }
 
-test('Verify user can filter products by category', async ({ page }) => {
-    const homePage = new HomePage(page);
+test('Verify user can filter products by category', async ({ app }) => {
+   
+    // Skip test in CI environment due to Cloudflare protection
+    test.skip(!!process.env.CI, 'Test is skipped in CI due to the Cloudflare protection.');
 
-    await page.goto('/');
-    await homePage.sanderLabel.click();
-    await expect(homePage.filterCompleted).toBeVisible();
-    const productNames = await homePage.productName.allInnerTexts();
+    await app.page.goto('/');
+    await app.homePage.sanderLabel.click();
+    await expect(app.homePage.filterCompleted).toBeVisible();
+    const productNames = await app.homePage.productName.allInnerTexts();
     for (const name of productNames) {
         expect(name.toLowerCase()).toContain('sander');
     }

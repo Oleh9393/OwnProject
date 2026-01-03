@@ -1,31 +1,27 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/home.page';
-import { ProductDetailsPage } from '../pages/product-details.page';
-import { CheckoutPage } from '../pages/checkout.page';
-test.use({ storageState: 'auth/session.json' });
+import { test, expect } from './fixtures';
 
-test('adding products to the card', async ({ page }) => {
 
-    await page.goto('/');
-    const homePage = new HomePage(page);
-    await homePage.getProductByText('Slip Joint Pliers').click();
 
-    const productDetails = new ProductDetailsPage(page);
-    await expect(page).toHaveURL(/\/product\//);
-    const priceText = await productDetails.unitPrice.innerText();
+test('adding products to the card', async ({ app }) => {
+
+
+    // Skip test in CI environment due to Cloudflare protection
+    test.skip(!!process.env.CI, 'Test is skipped in CI due to the Cloudflare protection.');
+
+    await app.page.goto('/');
+    await app.homePage.getProductByText('Slip Joint Pliers').click();
+    await expect(app.page).toHaveURL(/\/product\//);
+
+    const priceText = await app.productDetails.unitPrice.innerText();
     expect(parseFloat(priceText)).toBeGreaterThan(0);
-    await productDetails.addToCart.click();
-
-    const alert = page.getByRole('alert');
-    await expect(alert).toBeVisible();
-    await expect(alert).toHaveText("Product added to shopping cart.");
-    await expect(alert).toBeHidden({ timeout: 8000 });
-    await expect(productDetails.quantityIcon).toHaveText('1');
-    await productDetails.navCart.click();
-
-    const checkout = new CheckoutPage(page);
-    await expect(page).toHaveURL(/\/checkout/);
-    await expect(checkout.productQuantity).toHaveValue('1');
-    await expect(checkout.productTitle).toContainText('Slip Joint Pliers');
-    await expect(checkout.proceedToCheckout).toBeVisible();
+    await app.productDetails.addToCart.click();
+    await expect(app.alert.container).toBeVisible();
+    await expect(app.alert.container).toHaveText("Product added to shopping cart.");
+    await expect(app.alert.container).toBeHidden({ timeout: 8000 });
+    await expect(app.productDetails.quantityIcon).toHaveText('1');
+    await app.productDetails.navCart.click();
+    await expect(app.page).toHaveURL(/\/checkout/);
+    await expect(app.checkout.productQuantity).toHaveValue('1');
+    await expect(app.checkout.productTitle).toContainText('Slip Joint Pliers');
+    await expect(app.checkout.proceedToCheckout).toBeVisible();
 });

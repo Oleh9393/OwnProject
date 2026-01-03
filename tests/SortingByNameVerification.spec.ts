@@ -1,7 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { HomePage} from '../pages/home.page';
-test.use({ storageState: 'auth/session.json' });
-
+import { test, expect } from './fixtures';
 
 const sortProducts = [
     {
@@ -17,18 +14,20 @@ const sortProducts = [
 ];
 
 for (const product of sortProducts) {
-    test(product.testName, async ({ page }) => {
-       
-        await page.goto('/');
-        const homePage = new HomePage(page);
-        await homePage.sortingButton.selectOption({ label: product.sortOption });
-        await expect(homePage.sortingCompleted).toBeVisible();
-        const productNames = await homePage.productName.allInnerTexts();
+    test(product.testName, async ({ app }) => {
+
+        // Skip test in CI environment due to Cloudflare protection
+        test.skip(!!process.env.CI, 'Test is skipped in CI due to the Cloudflare protection.');
+
+        await app.page.goto('/');
+        await app.homePage.sortingButton.selectOption({ label: product.sortOption });
+        await expect(app.homePage.sortingCompleted).toBeVisible();
+        const productNames = await app.homePage.productName.allInnerTexts();
         const sortedNames = [...productNames];
         if (product.sortOrder === 'asc') {
-            sortedNames.sort((a, b) => a.localeCompare(b)); 
+            sortedNames.sort((a, b) => a.localeCompare(b));
         } else {
-            sortedNames.sort((a, b) => b.localeCompare(a)); 
+            sortedNames.sort((a, b) => b.localeCompare(a));
         }
         expect(productNames).toEqual(sortedNames);
     });

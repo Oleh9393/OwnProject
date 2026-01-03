@@ -1,16 +1,17 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/home.page';
-import { ProductDetailsPage } from '../pages/product-details.page';
-test.use({ storageState: 'auth/session.json' });
+import { test, expect } from './fixtures';
 
-test('verifying product data', async ({ page }) => {
-    await page.goto('/');
-    const homePage = new HomePage(page);
-    await homePage.getProductByText('Combination Pliers').click();
 
-    const productDetails = new ProductDetailsPage(page);
-    await expect(page).toHaveURL(/\/product\//);
-    await expect(productDetails.unitPrice).toContainText('14.15');
-    await expect(productDetails.addToFavourites).toBeVisible();
-    await expect(productDetails.addToCart).toBeVisible();
+test('verifying product data', async ({ app }) => {
+
+    // Skip test in CI environment due to Cloudflare protection
+    test.skip(!!process.env.CI, 'Test is skipped in CI due to the Cloudflare protection.');
+
+    await app.page.goto('/');
+    // const homePage = new HomePage();
+    await app.homePage.getProductByText('Combination Pliers').click();
+    //const productDetails = new ProductDetailsPage(page);
+    await expect(app.page).toHaveURL(/\/product\//);
+    await expect(app.productDetails.unitPrice).toContainText('14.15');
+    await expect(app.productDetails.addToFavourites).toBeVisible();
+    await expect(app.productDetails.addToCart).toBeVisible();
 });
