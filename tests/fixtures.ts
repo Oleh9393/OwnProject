@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test';
 import { App } from '../pages/app';
 import { usersCreds } from '../data/creds';
-
+import { getAuthToken, getLoggedInPage } from '../utils/loginUtil';
 type MyFixtures = {
     app: App;
     loggedInApp: App;
@@ -12,13 +12,19 @@ export const test = base.extend<MyFixtures>({
         const app = new App(page);
         await use(app);
     },
-    loggedInApp: async ({ app }, use) => {
-        await app.page.goto('/auth/login');
-        await app.loginPage.performLogin(usersCreds.customer.email, usersCreds.customer.password);
-        await app.page.waitForURL(/\/account/);
-        await use(app);
-    },
 
+    loggedInApp: async ({ browser }, use) => {
+        const token = await getAuthToken(
+            usersCreds.customer.email,
+            usersCreds.customer.password
+        );
+
+        const page = await getLoggedInPage(browser, token);
+        const app = new App(page);
+
+        await use(app);
+        await page.context().close();
+    },
 });
 
 export { expect } from '@playwright/test';
